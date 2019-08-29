@@ -7,8 +7,22 @@ This is a script that creates a `$mkdir` global variable containing a function. 
   - Should run on Router OS 6.2+ but much more testing is needed!
 
 # Installation
+## The Easy Way
 Copy the `persist_create_mkdir_function.rsc` file to your Mikrotik device and then run `/import persist_create_mkdir_function.rsc`
 This will create the function, as well as a new scheduler entry that will create the function on startup, ensuring `$mkdir` is always available to you and your scripts.
+
+## The Even Easier Way
+Copy and paste the below into your terminal to create the function and persist it using a scheduler startup script.
+```
+{
+    :local result [/tool fetch \
+    url="https://raw.githubusercontent.com/phistrom/routeros-mkdir/master/persist_create_mkdir_function.rsc" \
+    as-value output=user];
+    :local script [:parse ($result->"data")]
+    $script;
+}
+
+```
 
 # Usage
 On the command line, you can simply type `$mkdir any/path/you/want`, and the entire folder tree will be created if necessary. If the path already exists, the function quits without doing anything.
@@ -43,7 +57,7 @@ The code that creates firewall rules, the temporary user, and changes FTP servic
 This function runs synchronously meaning it does not return until the folder is created (or an error occurs).
 
 # Testing
-Only tested on RouterOS 6.45. Please open an issue on GitHub if you find this does not work with your particular device/OS.
+Only tested on RouterOS **6.44** and **6.45**. Please open an issue on GitHub if you find this does not work with your particular device/OS.
 
 # License
 MIT
