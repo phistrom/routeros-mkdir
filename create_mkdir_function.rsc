@@ -29,11 +29,9 @@
     }
 
     :if ([/file find name=$newFolder] != "") do={
-        # the :error command seems to be the only way to break out of a script
-        # without also killing the terminal someone is in
         :set errorMsg "'$newFolder' already exists.";
         :log debug "mkdir: $errorMsg";
-        :error $errorMsg;
+        :return $newFolder;
     }
 
     # the name of the temp file to create
